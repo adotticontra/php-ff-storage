@@ -1,0 +1,169 @@
+HOW TO USE FF-STORAGE
+---------------------
+
+First thing you have to do to use ff-storage is to put the following
+line whenever you plan to use it:
+
+require_once("/path/to/lib/ff-storage.php");
+
+CREATING A NEW STORAGE
+----------------------
+
+Two type of storages can be created, one containing strings and one
+containing objects. The type of storage you'd like to create is
+specified at the time you instantiate a new variable. For example:
+
+$strings = new ff-storage(ff-storage::STRINGS,"storage/file.txt");
+
+With the above statement a new string based storage is created (the
+ff-storage::STRINGS is a constant provide by the ff-storage library
+itself). The file.txt is the plain text file where your items will be
+stored, and can be an already existing files or not.
+
+Please note that, in case file.txt already contains data, ff-storage
+doesn't test if the data are consistent with the type of storage you are
+going to create, so be sure to check for that consistency yourself,
+otherwise you may encounter erratic behaviors.
+
+To create an objects storage, do the following:
+
+$objects = new ff-storage(ff-storage::OBJECTS,"storage/file.txt",4);
+
+The extra parameter ("4" in the example) is the number of properties the
+object has. It must be a positive integer.
+
+If something goes wrong when creating a new storage, your newly
+instantiated variable is set to FALSE, and you can use the following
+method:
+
+ff-storage::show_error();
+
+to check what went wrong.
+
+Please note that strings and objects can't be mixed; in case you try,
+for example, to add a string to an objects storage you'll get an error.
+
+Use ff-storage::type() to check the type of storage (the method returns
+ff-storage::STRINGS or ff-storage::OBJECTS).
+
+ADDING NEW ELEMENTS
+-------------------
+
+* Adding strings
+
+Adding a string to the storage is pretty straightforward:
+
+$strings->add($string);
+
+where $string is the string you'd like to store. The method returns TRUE
+in case of success, or FALSE otherwise.
+
+* Adding objects
+
+To add a new object, first create the object:
+
+$object = ["one", "two", "three", "four"];
+
+The object is itself an array, which must have the same number of
+elements (properties) declared when the storage was created.
+
+Now you can add the object:
+
+$objects->add($object);
+
+UPDATING ELEMENTS
+-----------------
+
+* Updating strings
+
+To update a string use the following method:
+
+$strings->update($old_string,$new_string);
+
+where $old_string is a regular expression and $new_string is the
+replacing element. All matching strings will be updated.
+
+The method returns the number of updates.
+
+* Updating objects
+
+To update an object the method to use the same used to update a string:
+
+$objects->update($old_object,$new_object);
+
+where $old_object is an array with as many elements as the number of
+properties declared when the storage was created, each element
+representing a regular expression. Example:
+
+$old_object = [FALSE,"^apple$","[0-9]+",FALSE];
+
+This object matches anything that has "apple" as the second property,
+and a numeric value as third.
+
+$new_object = [FALSE,FALSE,"xxx-xxx",FALSE];
+
+This object updates the third property only.
+
+Note that any property set to FALSE is ignored.
+
+The method returns the number of updates.
+
+REMOVING ELEMENTS
+-----------------
+
+* Removing strings
+
+To remove a string:
+
+$strings->remove($string);
+
+where $string is a regular expression.
+
+The method removes all matching strings and returns the number of
+strings removed.
+
+* Removing objects
+
+To remove and object:
+
+$objects->remove($object);
+
+where $object is the same kind of object used for replacing.
+
+The method removes all matching objects and returns the number of
+objects removed.
+
+FINDING ELEMENTS
+----------------
+
+* Finding strings
+
+To find a string:
+
+$strings->find($string);
+
+where $string is a regular expression.
+
+The method returns the number of strings found.
+
+* Finding objects
+
+To find an object:
+
+$objects->find($object);
+
+where $object is the same kind of object used for replacing.
+
+The method returns the number of objects found.
+
+MISCELLANEA
+-----------
+
+ff-storage provides the following, public accessible, properties:
+
+ff-storage::delimiter: define which delimiter will be use to concatenate
+object properties. It is ignored for strings. Defaults to "|".
+
+ff-storage also provides the following methods:
+
+ff-storage::count(): returns the number of elements actually stored.
