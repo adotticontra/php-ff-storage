@@ -33,12 +33,7 @@ The extra parameter ("4" in the example) is the number of properties the
 object has. It must be a positive integer.
 
 If something goes wrong when creating a new storage, your newly
-instantiated variable is set to FALSE, and you can use the following
-method:
-
-ff-storage::show_error();
-
-to check what went wrong.
+instantiated variable is set to FALSE.
 
 Please note that strings and objects can't be mixed; in case you try,
 for example, to add a string to an objects storage you'll get an error.
@@ -161,9 +156,14 @@ MISCELLANEA
 
 ff-storage provides the following, public accessible, properties:
 
-ff-storage::delimiter: define which delimiter will be use to concatenate
-object properties. It is ignored for strings. Defaults to "|".
+- ff-storage::delimiter:
+	define which delimiter will be use to concatenate object properties.
+	It is ignored for strings. Defaults to "|".
 
 ff-storage also provides the following methods:
 
-ff-storage::count(): returns the number of elements actually stored.
+- ff-storage::count()
+	returns the number of elements actually stored;
+- ff-storage::error()
+	reports the last error, or FALSE if the last operation was
+	successful.
