@@ -32,14 +32,11 @@ $objects = new ff_storage(ff_storage::OBJECTS,"storage/file.txt",4);
 The extra parameter ("4" in the example) is the number of properties the
 object has. It must be a positive integer.
 
-If something goes wrong when creating a new storage, your newly
-instantiated variable is set to FALSE.
-
 Please note that strings and objects can't be mixed; in case you try,
 for example, to add a string to an objects storage you'll get an error.
 
 Use ff_storage::type() to check the type of storage (the method returns
-ff_storage::STRINGS or ff_storage::OBJECTS).
+ff_storage::STRINGS, ff_storage::OBJECTS or FALSE).
 
 ADDING NEW ELEMENTS
 -------------------
@@ -166,4 +163,7 @@ ff_storage also provides the following methods:
 	returns the number of elements actually stored;
 - ff_storage::error()
 	reports the last error, or FALSE if the last operation was
-	successful.
+	successful;
+- ff_storage::properties()
+	returns the number of properties of the objects stored. It's
+	meaningless for strings;
