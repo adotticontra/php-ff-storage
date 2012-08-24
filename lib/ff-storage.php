@@ -22,6 +22,21 @@ class ff_storage {
 
 	public $delimiter	= "|";			// The delimiter used to concatenate object properties
 
+	private function append_to_file($item) {
+		// Append $item to storage file
+		$f = fopen($this->file, "a");
+		if(!$f) {
+			$this->error = "Can't open storage file: $this->file\n";
+			return FALSE;
+		}
+		if(fwrite($f,$item."\n")) {
+			fclose($f);
+			return TRUE;
+		}
+		$this->error = "Can't add item $item to storage\n";
+		return FALSE;
+	}
+
 	public function __construct($type,$file,$properties = 1) {
 		// Check that we have supplied a valid storage type. If not,
 		// just keep $this->type set to FALSE.
@@ -41,6 +56,7 @@ class ff_storage {
 			default:
 				$this->error = "Invalid storage type";
 		}
+		$this->file = $file;
 		return $this;
 	}
 
@@ -54,6 +70,24 @@ class ff_storage {
 
 	public function properties() {
 		return $this->properties;
+	}
+
+	public function add($item) {
+		// Add a string to a strings storage and add an object to an
+		// objects storage.
+		if(($this->type === self::STRINGS) && is_string($item)) {
+			return $this->append_to_file($item);
+		}
+		if(($this->type === self::OBJECTS) && is_array($item)) {
+			if(count($item) != $this->properties) {
+				$this->error = "Malformed object";
+				return FALSE;
+			}
+			$item = implode($this->delimiter,$item);
+			return $this->append_to_file($item);
+		}
+		$this->error = "Storage does not support type";
+		return FALSE;
 	}
 }
 ?>

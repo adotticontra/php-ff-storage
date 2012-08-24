@@ -14,7 +14,7 @@ if($strings->type() === ff_storage::STRINGS) {
 print "Create a storage (strings)\n";
 
 // Create a storage (objects)
-$objects = new ff_storage(ff_storage::OBJECTS,"objects.txt");
+$objects = new ff_storage(ff_storage::OBJECTS,"objects.txt",4);
 if($objects->type() === ff_storage::OBJECTS) {
 	print "[OK] ";
 } else {
@@ -22,8 +22,23 @@ if($objects->type() === ff_storage::OBJECTS) {
 }
 print "Create a storage (objects)\n";
 
-print "[TODO] Add a string\n";
-print "[TODO] Add an object\n";
+// Add a string
+if($strings->add("apple")) {
+	print "[OK] ";
+} else {
+	print "[FAILED] ";
+}
+print "Add a string\n";
+
+// Add an object
+$o = array("one","two","three","four");
+if($objects->add($o)) {
+	print "[OK] ";
+} else {
+	print "[FAILED] ";
+}
+print "Add an object\n";
+
 print "[TODO] Update strings\n";
 print "[TODO] Update objects\n";
 print "[TODO] Remove strings\n";
@@ -41,7 +56,6 @@ if(!$dummy->type()) {
 } else {
 	print "[FAILED] ";
 }
-
 print "Create a storage (wrong type)\n";
 print "error = " . $dummy->error() . "\n";
 
@@ -52,15 +66,42 @@ if(!$dummy->type()) {
 } else {
 	print "[FAILED] ";
 }
-
 print "Create a storage (objects, invalid properties number)\n";
 print "error = " . $dummy->error() . "\n";
 
-print "[TODO] Add item (string -> objects)\n";
-print "[TODO] Add item (object -> strings)\n";
-print "[TODO] Add object (malformed object)\n";
+// Add item (string -> objects)
+if(!$objects->add("lemon")) {
+	print "[OK] ";
+} else {
+	print "[FAILED] ";
+}
+print "Add item (string -> objects)\n";
+print "error = " . $objects->error() . "\n";
+
+// Add item (object -> strings)
+$o = array("one","two");
+if(!$strings->add($o)) {
+	print "[OK] ";
+} else {
+	print "[FAILED] ";
+}
+print "Add item (object -> strings)\n";
+print "error = " . $strings->error() . "\n";
+
+// Add object (malformed object)
+if(!$objects->add($o)) {
+	print "[OK] ";
+} else {
+	print "[FAILED] ";
+}
+print "Add object (malformed object)\n";
+print "error = " . $objects->error() . "\n";
+
 print "[TODO] Update objects (malformed old)\n";
 print "[TODO] Update objects (malformed new)\n";
 print "[TODO] Remove objects (malformed object)\n";
 print "[TODO] Find objects (malformed object)\n";
+
+unlink("strings.txt");
+unlink("objects.txt");
 ?>

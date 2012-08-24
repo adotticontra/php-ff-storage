@@ -54,7 +54,7 @@ in case of success, or FALSE otherwise.
 
 To add a new object, first create the object:
 
-$object = ["one", "two", "three", "four"];
+$object = array("one", "two", "three", "four");
 
 The object is itself an array, which must have the same number of
 elements (properties) declared when the storage was created.
@@ -87,12 +87,12 @@ where $old_object is an array with as many elements as the number of
 properties declared when the storage was created, each element
 representing a regular expression. Example:
 
-$old_object = [FALSE,"^apple$","[0-9]+",FALSE];
+$old_object = array(FALSE,"^apple$","[0-9]+",FALSE);
 
 This object matches anything that has "apple" as the second property,
 and a numeric value as third.
 
-$new_object = [FALSE,FALSE,"xxx-xxx",FALSE];
+$new_object = array(FALSE,FALSE,"xxx-xxx",FALSE);
 
 This object updates the third property only.
 
