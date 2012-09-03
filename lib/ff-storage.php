@@ -29,11 +29,18 @@ class ff_storage {
 			$this->error = "Can't open storage file: $this->file\n";
 			return FALSE;
 		}
+		if(!flock($f, LOCK_EX | LOCK_NB)) {
+			$this->error = "Can't lock storage file: $this->file\n";
+			return FALSE;
+		}
 		if(fwrite($f,$item."\n")) {
+			flock($f,LOCK_UN);
 			fclose($f);
 			return TRUE;
 		}
 		$this->error = "Can't add item $item to storage\n";
+		flock($f,LOCK_UN);
+		fclose($f);
 		return FALSE;
 	}
 
