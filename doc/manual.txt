@@ -75,7 +75,7 @@ $strings->update($old_string,$new_string);
 where $old_string is a regular expression and $new_string is the
 replacing element. All matching strings will be updated.
 
-The method returns the number of updates.
+The method returns the number of updates or FALSE in case of error.
 
 * Updating objects
 
@@ -98,7 +98,7 @@ This object updates the third property only.
 
 Note that any property set to FALSE is ignored.
 
-The method returns the number of updates.
+The method returns the number of updates or FALSE in case of error.
 
 REMOVING ELEMENTS
 -----------------

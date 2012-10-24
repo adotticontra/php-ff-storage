@@ -39,8 +39,30 @@ if($objects->add($o)) {
 }
 print "Add an object\n";
 
-print "[TODO] Update strings\n";
-print "[TODO] Update objects\n";
+//Update string
+$strings->add("pineapple");
+$strings->add("lemon");
+if($strings->update("/^.*apple$/","orange") == 2) {
+	print "[OK] ";
+} else {
+	print "[FAILED] ";
+}
+print "Update strings\n";
+
+//Update object
+$o = array("uno","due","tre","quattro");
+$objects->add($o);
+$o = array("nessuno","due","tre","cinque");
+$objects->add($o);
+$o_old = array("/.+uno/",false,false,"/cinque/");
+$o_new = array("uno",false,false,false);
+if($objects->update($o_old,$o_new) == 1) {
+	print "[OK] ";
+} else {
+	print "[FAILED] ";
+}
+print "Update objects\n";
+
 print "[TODO] Remove strings\n";
 print "[TODO] Remove objects\n";
 print "[TODO] Find strings\n";
@@ -97,8 +119,27 @@ if(!$objects->add($o)) {
 print "Add object (malformed object)\n";
 print "error = " . $objects->error() . "\n";
 
-print "[TODO] Update objects (malformed old)\n";
-print "[TODO] Update objects (malformed new)\n";
+// Update object (malformed old)
+$o_old = array("uno","due");
+if($objects->update($o_old,$o_new) === false) {
+	print "[OK] ";
+} else {
+	print "[FAILED] ";
+}
+print "Update object (malformed old)\n";
+print "error = " . $objects->error() . "\n";
+
+// Update object (malformed new)
+$o_old = array("uno","due","tre","quattro");
+$o_new = array("uno","due");
+if($objects->update($o_old,$o_new) === false) {
+	print "[OK] ";
+} else {
+	print "[FAILED] ";
+}
+print "Update object (malformed new)\n";
+print "error = " . $objects->error() . "\n";
+
 print "[TODO] Remove objects (malformed object)\n";
 print "[TODO] Find objects (malformed object)\n";
 
