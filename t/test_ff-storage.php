@@ -63,8 +63,23 @@ if($objects->update($o_old,$o_new) == 1) {
 }
 print "Update objects\n";
 
-print "[TODO] Remove strings\n";
-print "[TODO] Remove objects\n";
+//Remove strings
+if($strings->remove("/.*orange$/") == 2) {
+	print "[OK] ";
+} else {
+	print "[FAILED] ";
+}
+print "Remove strings\n";
+
+//Remove objects
+$o = array(FALSE,FALSE,FALSE,"/cinque/");
+if($objects->remove($o) == 1) {
+	print "[OK] ";
+} else {
+	print "[FAILED] ";
+}
+print "Remove objects\n";
+
 print "[TODO] Find strings\n";
 print "[TODO] Find objects\n";
 print "[TODO] Count elements in storage (strings)\n";
@@ -140,7 +155,16 @@ if($objects->update($o_old,$o_new) === false) {
 print "Update object (malformed new)\n";
 print "error = " . $objects->error() . "\n";
 
-print "[TODO] Remove objects (malformed object)\n";
+// Remove objects (malformed object)
+$o = array("uno","due");
+if($objects->remove($o) === false) {
+	print "[OK] ";
+} else {
+	print "[FAILED] ";
+}
+print "Remove objects (malformed object)\n";
+print "error = " . $objects->error() . "\n";
+
 print "[TODO] Find objects (malformed object)\n";
 
 unlink("strings.txt");

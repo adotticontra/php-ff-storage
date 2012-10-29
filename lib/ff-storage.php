@@ -34,6 +34,14 @@ class ff_storage {
 		return FALSE;
 	}
 
+	private function is_well_formed($item) {
+		//Check if an object is well formed
+		if(count($item) != $this->properties) {
+			return FALSE;
+		}
+		return TRUE;
+	}
+
 	private function load_from_file() {
 		//Load items from storage file
 		$f = fopen($this->file, "r");
@@ -108,6 +116,8 @@ class ff_storage {
 						case "update":
 							$item = $new;
 							break;
+						case "delete":
+							continue 2; //switch() is considered a loop
 					}
 				}
 			}
@@ -130,7 +140,11 @@ class ff_storage {
 					case "update":
 						$item = implode($this->delimiter,$new_item);
 						break;
+					case "delete":
+						continue 2; //switch() is considered a loop
 					}
+				} else {
+					$item = implode($this->delimiter,$item);
 				}
 			}
 			if(!fwrite($f,$item."\n")) {
@@ -188,7 +202,7 @@ class ff_storage {
 			return $this->append_to_file($item);
 		}
 		if($this->type == self::OBJECTS) {
-			if(count($item) != $this->properties) {
+			if(!$this->is_well_formed($item)) {
 				$this->error = "Malformed object";
 				return FALSE;
 			}
@@ -205,15 +219,36 @@ class ff_storage {
 		}
 		if($this->type == self::OBJECTS) {
 			//Check if objects are well formed
-			if((count($old) != $this->properties) or ( count($new) != $this->properties)) {
+			if((!$this->is_well_formed($old)) or (!$this->is_well_formed($new))) {
 				$this->error = "Malformed object";
 				return FALSE;
 			}
 		}
 		// load from file
 		$items = $this->load_from_file();
+		if($items === FALSE) { return FALSE; }
 		// dump to file (update)
 		return($this->dump_to_file("update",$items,$old,$new));
+	}
+
+	public function remove($item) {
+		// Remove a string or an object.
+		// Returns the number of removed items or FALSE in case of error.
+		if(!$this->is_supported($item)) {
+			return FALSE;
+		}
+		if($this->type == self::OBJECTS) {
+			//Check if objects are well formed
+			if(count($item) != $this->properties) {
+				$this->error = "Malformed object";
+				return FALSE;
+			}
+		}
+		// load from file
+		$items = $this->load_from_file();
+		if($items === FALSE) { return FALSE; }
+		// dump to file (delete)
+		return($this->dump_to_file("delete",$items,$item));
 	}
 }
 ?>
