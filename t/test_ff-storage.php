@@ -94,7 +94,7 @@ if(!$dummy->type()) {
 	print "[FAILED] ";
 }
 print "Create a storage (wrong type)\n";
-print "error = " . $dummy->error() . "\n";
+print "\terror = " . $dummy->error() . "\n";
 
 // Create a storage (objects, invalid properties number).
 $dummy = new ff_storage(ff_storage::OBJECTS,"dummy.txt","-1");
@@ -104,7 +104,7 @@ if(!$dummy->type()) {
 	print "[FAILED] ";
 }
 print "Create a storage (objects, invalid properties number)\n";
-print "error = " . $dummy->error() . "\n";
+print "\terror = " . $dummy->error() . "\n";
 
 // Add item (string -> objects)
 if(!$objects->add("lemon")) {
@@ -113,7 +113,7 @@ if(!$objects->add("lemon")) {
 	print "[FAILED] ";
 }
 print "Add item (string -> objects)\n";
-print "error = " . $objects->error() . "\n";
+print "\terror = " . $objects->error() . "\n";
 
 // Add item (object -> strings)
 $o = array("one","two");
@@ -123,7 +123,7 @@ if(!$strings->add($o)) {
 	print "[FAILED] ";
 }
 print "Add item (object -> strings)\n";
-print "error = " . $strings->error() . "\n";
+print "\terror = " . $strings->error() . "\n";
 
 // Add object (malformed object)
 if(!$objects->add($o)) {
@@ -132,7 +132,7 @@ if(!$objects->add($o)) {
 	print "[FAILED] ";
 }
 print "Add object (malformed object)\n";
-print "error = " . $objects->error() . "\n";
+print "\terror = " . $objects->error() . "\n";
 
 // Update object (malformed old)
 $o_old = array("uno","due");
@@ -142,7 +142,7 @@ if($objects->update($o_old,$o_new) === false) {
 	print "[FAILED] ";
 }
 print "Update object (malformed old)\n";
-print "error = " . $objects->error() . "\n";
+print "\terror = " . $objects->error() . "\n";
 
 // Update object (malformed new)
 $o_old = array("uno","due","tre","quattro");
@@ -153,7 +153,7 @@ if($objects->update($o_old,$o_new) === false) {
 	print "[FAILED] ";
 }
 print "Update object (malformed new)\n";
-print "error = " . $objects->error() . "\n";
+print "\terror = " . $objects->error() . "\n";
 
 // Remove objects (malformed object)
 $o = array("uno","due");
@@ -163,7 +163,7 @@ if($objects->remove($o) === false) {
 	print "[FAILED] ";
 }
 print "Remove objects (malformed object)\n";
-print "error = " . $objects->error() . "\n";
+print "\terror = " . $objects->error() . "\n";
 
 print "[TODO] Find objects (malformed object)\n";
 

@@ -136,7 +136,7 @@ $strings->find($string);
 
 where $string is a regular expression.
 
-The method returns the number of strings found.
+The method returns the number of strings found or FALSE in case of errors.
 
 * Finding objects
 
@@ -146,7 +146,7 @@ $objects->find($object);
 
 where $object is the same kind of object used for replacing.
 
-The method returns the number of objects found.
+The method returns the number of objects found or FALSE in case of errors.
 
 MISCELLANEA
 -----------

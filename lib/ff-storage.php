@@ -89,6 +89,20 @@ class ff_storage {
 		return FALSE;
 	}
 
+	private function match_string($a,$b) {
+		//Check if two strings match
+		return preg_match($a,$b);
+	}
+	
+	private function match_object($a,$b,$matches) {
+		//Check if two objects match
+		$matched = 0;
+		for($i = 0; $i < count($a); $i++) {
+			if($a[$i]) { if(preg_match($a[$i],$b[$i])) { $matched++; } }
+		}
+		return ($matched == $matches);
+	}
+
 	private function dump_to_file($action,$items,$old,$new=FALSE) {
 		//Dump items to storage file, perfoming the request action.
 		$f = fopen($this->file, "w");
@@ -110,7 +124,7 @@ class ff_storage {
 		}
 		foreach($items as $item) {
 			if($this->type === self::STRINGS) {
-				if(preg_match($old,$item)) {
+				if($this->match_string($old,$item)) {
 					$count++;
 					switch($action) {
 						case "update":
@@ -122,22 +136,15 @@ class ff_storage {
 				}
 			}
 			if($this->type == self::OBJECTS) {
-				$matched = 0;
-				$new_item = array();
-				for($i = 0; $i < count($old); $i++) {
-					if($old[$i]) {
-						if(preg_match($old[$i],$item[$i])) {
-							$matched++;
-							$new_item[$i] = $new[$i] ? $new[$i] : $item[$i];
-						}
-					} else {
-						$new_item[$i] = $new[$i] ? $new[$i] : $item[$i];
-					}
-				}
-				if($matched == $matches) { 
+				if($this->match_object($old,$item,$matches)) { 
 					$count++;
 					switch($action) {
 					case "update":
+						//Build the new object
+						$new_item = array();
+						for($i = 0; $i < count($old); $i++) {
+							$new_item[$i] = $new[$i] ? $new[$i] : $item[$i];
+						}
 						$item = implode($this->delimiter,$new_item);
 						break;
 					case "delete":
