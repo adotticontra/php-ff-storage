@@ -80,8 +80,23 @@ if($objects->remove($o) == 1) {
 }
 print "Remove objects\n";
 
-print "[TODO] Find strings\n";
-print "[TODO] Find objects\n";
+//Find strings
+if(count($strings->find("/lemon/")) == 1) {
+	print "[OK] ";
+} else {
+	print "[FAILED] ";
+}
+print "Find strings\n";
+
+//Find objects
+$o = array(FALSE,FALSE,FALSE,"/four/");
+if(count($objects->find($o)) == 1) {
+	print "[OK] ";
+} else {
+	print "[FAILED] ";
+}
+print "Find objects\n";
+
 print "[TODO] Count elements in storage (strings)\n";
 print "[TODO] Count elements in storage (objects)\n";
 print "===> Failure tests\n";
@@ -165,7 +180,16 @@ if($objects->remove($o) === false) {
 print "Remove objects (malformed object)\n";
 print "\terror = " . $objects->error() . "\n";
 
-print "[TODO] Find objects (malformed object)\n";
+// Find objects (malformed object)
+$o = array("uno","due");
+if($objects->find($o) === false) {
+	print "[OK] ";
+} else {
+	print "[FAILED] ";
+}
+print "Find objects (malformed object)\n";
+print "\terror = " . $objects->error() . "\n";
+
 
 unlink("strings.txt");
 unlink("objects.txt");

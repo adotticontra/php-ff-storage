@@ -94,8 +94,10 @@ class ff_storage {
 		return preg_match($a,$b);
 	}
 	
-	private function match_object($a,$b,$matches) {
+	private function match_object($a,$b) {
 		//Check if two objects match
+		$matches = 0;
+		foreach($a as $item) { if($item) { $matches++; } }
 		$matched = 0;
 		for($i = 0; $i < count($a); $i++) {
 			if($a[$i]) { if(preg_match($a[$i],$b[$i])) { $matched++; } }
@@ -116,12 +118,6 @@ class ff_storage {
 		}
 		$count = 0;
 		$matches = 0; //Needed for objects
-		if($this->type == self::OBJECTS) {
-			//Check how many properties must match
-			foreach($old as $item) {
-				if($item) { $matches++; }
-			}
-		}
 		foreach($items as $item) {
 			if($this->type === self::STRINGS) {
 				if($this->match_string($old,$item)) {
@@ -136,7 +132,7 @@ class ff_storage {
 				}
 			}
 			if($this->type == self::OBJECTS) {
-				if($this->match_object($old,$item,$matches)) { 
+				if($this->match_object($old,$item)) { 
 					$count++;
 					switch($action) {
 					case "update":
@@ -246,7 +242,7 @@ class ff_storage {
 		}
 		if($this->type == self::OBJECTS) {
 			//Check if objects are well formed
-			if(count($item) != $this->properties) {
+			if(!$this->is_well_formed($item)) {
 				$this->error = "Malformed object";
 				return FALSE;
 			}
@@ -256,6 +252,37 @@ class ff_storage {
 		if($items === FALSE) { return FALSE; }
 		// dump to file (delete)
 		return($this->dump_to_file("delete",$items,$item));
+	}
+
+	public function find($item) {
+		// Find an item in the storage.
+		// Returns an array with the strings or the objects found of FALSE in case of error.
+		if(!$this->is_supported($item)) {
+			return FALSE;
+		}
+		//Check if objects are well formed
+		if(!$this->is_well_formed($item)) {
+			$this->error = "Malformed object";
+			return FALSE;
+		}
+		// load from file
+		$items = $this->load_from_file();
+		if($items === FALSE) { return FALSE; }
+		// search for $item
+		$found = array();
+		foreach($items as $i) {
+			if($this->type == self::STRINGS) {
+				if($this->match_string($item,$i)) {
+					$found[] = $i;
+				}
+			}
+			if($this->type == self::OBJECTS) {
+				if($this->match_object($item,$i)) {
+					$found[] = $i;
+				}
+			}
+		}
+		return $found;
 	}
 }
 ?>
