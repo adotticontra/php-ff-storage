@@ -284,5 +284,12 @@ class ff_storage {
 		}
 		return $found;
 	}
+
+	public function count() {
+		// count elements in storage
+		$items = $this->load_from_file();
+		$count = ($items === FALSE ? FALSE : count($items));
+		return $count;
+	}
 }
 ?>

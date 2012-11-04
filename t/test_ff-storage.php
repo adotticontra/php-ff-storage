@@ -97,8 +97,22 @@ if(count($objects->find($o)) == 1) {
 }
 print "Find objects\n";
 
-print "[TODO] Count elements in storage (strings)\n";
-print "[TODO] Count elements in storage (objects)\n";
+//Count elements in storage (strings)
+if($strings->count() == 1) {
+	print "[OK] ";
+} else {
+	print "[FAILED] ";
+}
+print "Count elements in storage (strings)\n";
+
+//Count elements in storage (objects)
+if($objects->count() == 2) {
+	print "[OK] ";
+} else {
+	print "[FAILED] ";
+}
+print "Count elements in storage (objects)\n";
+
 print "===> Failure tests\n";
 
 // Create a storage (wrong type)
