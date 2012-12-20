@@ -72,8 +72,9 @@ To update a string use the following method:
 
 $strings->update($old_string,$new_string);
 
-where $old_string is a regular expression and $new_string is the
-replacing element. All matching strings will be updated.
+where $old_string is a regular expression (including slashes) and
+$new_string is the replacing element. All matching strings will be
+updated.
 
 The method returns the number of updates or FALSE in case of error.
 
@@ -87,7 +88,7 @@ where $old_object is an array with as many elements as the number of
 properties declared when the storage was created, each element
 representing a regular expression. Example:
 
-$old_object = array(FALSE,"^apple$","[0-9]+",FALSE);
+$old_object = array(FALSE,"/^apple$/","/[0-9]+/",FALSE);
 
 This object matches anything that has "apple" as the second property,
 and a numeric value as third.
