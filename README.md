@@ -16,7 +16,7 @@ HOW TO GET IT
 
 Public git repository is available at:
 
-https://git.gitorious.org/adc-phptools/ff-storage.git
+https://github.com/adotticontra/php-ff-storage.git
 
 HOW TO USE IT
 -------------
@@ -31,4 +31,4 @@ ff-storage is developed by:
 Alessandro Dotti Contra <alessandro@hyboria.org> 
 
 and is release under the terms of the LGPL 3 license. See
-doc/COPYING.txt for details.
+COPYING.txt for details.
