@@ -81,7 +81,8 @@ if($objects->remove($o) == 1) {
 print "Remove objects\n";
 
 //Find strings
-if(count($strings->find("/lemon/")) == 1) {
+$strings->add("lemon");
+if(count($strings->find("/lemon/")) == 2) {
 	print "[OK] ";
 } else {
 	print "[FAILED] ";
@@ -98,7 +99,7 @@ if(count($objects->find($o)) == 1) {
 print "Find objects\n";
 
 //Count elements in storage (strings)
-if($strings->count() == 1) {
+if($strings->count() == 2) {
 	print "[OK] ";
 } else {
 	print "[FAILED] ";
