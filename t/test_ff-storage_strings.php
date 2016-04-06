@@ -39,7 +39,8 @@ class ff_storageStringsTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testFindStrings() {
 		$this->strings->add("banana");
-		$this->assertEquals(count($this->strings->find('/^banana$/')),1);
+		$this->strings->add("banana");
+		$this->assertEquals(count($this->strings->find('/^banana$/')),2);
 	}
 
 	/**

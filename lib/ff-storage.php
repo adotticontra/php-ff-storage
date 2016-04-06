@@ -256,12 +256,12 @@ class ff_storage {
 
 	public function find($item) {
 		// Find an item in the storage.
-		// Returns an array with the strings or the objects found of FALSE in case of error.
+		// Returns an array with the strings or the objects found, or FALSE in case of error.
 		if(!$this->is_supported($item)) {
 			return FALSE;
 		}
-		//Check if objects are well formed
-		if(!$this->is_well_formed($item)) {
+		//Check if object is well formed
+		if($this->type == self::OBJECTS && !$this->is_well_formed($item)) {
 			$this->error = "Malformed object";
 			return FALSE;
 		}
