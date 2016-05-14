@@ -4,6 +4,7 @@ require_once("../lib/ff-storage.php");
 class ff_storageObjectsTest extends PHPUnit_Framework_TestCase {
 
 	protected function setUp() {
+		touch("objects.txt");
 		$this->objects = new ff_storage(ff_storage::OBJECTS,"objects.txt",4);
 	}
 
@@ -57,5 +58,9 @@ class ff_storageObjectsTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($this->objects->count(),1);	
 	}
 
+	public function testTemplate() {
+		$o = $this->objects->template();
+		$this->assertEquals(count($o),$this->objects->properties());	
+	}
 }
 ?>

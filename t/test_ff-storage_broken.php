@@ -55,5 +55,10 @@ class ff_storageBrokenTest extends PHPUnit_Framework_TestCase {
 		$o = array("one");
 		$this->assertFalse($dummy->find($o));
 	}
+
+	public function testStringsTemplate() {
+		$dummy = new ff_storage(ff_storage::STRINGS,"dummy.txt");
+		$this->assertFalse($dummy->template());
+	}
 }
 ?>

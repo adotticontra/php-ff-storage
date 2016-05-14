@@ -7,7 +7,6 @@
  * Released under the terms of the GNU LGPL v.3 or later.
  * See doc/COPYING.txt for details.
  *
- * version: 1.0.0
  */
 
 class ff_storage {
@@ -290,6 +289,19 @@ class ff_storage {
 		$items = $this->load_from_file();
 		$count = ($items === FALSE ? FALSE : count($items));
 		return $count;
+	}
+
+	public function template() {
+		// return an empty object 'template', or FALSE in case of strings
+		if($this->type == self::OBJECTS) {
+			$t = array();
+			for($i = 0; $i < $this->properties; $i++) {
+				$t[$i] = FALSE;
+			}
+		} else {
+			$t = FALSE;
+		}
+		return $t;
 	}
 }
 ?>

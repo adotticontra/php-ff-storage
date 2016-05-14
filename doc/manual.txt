@@ -165,7 +165,11 @@ ff_storage also provides the following methods:
 	returns the number of elements actually stored;
 - ff_storage::error()
 	reports the last error. Please not that the error message is not
-	reset between operations.
+	reset between operations;
 - ff_storage::properties()
 	returns the number of properties for the objects stored. It's
 	meaningless for strings;
+- ff_storage::template()
+	returns an array with the same number of items as the properties of
+	the objects stored; all items are set to FALSE. It's meaningless for
+	strings.
